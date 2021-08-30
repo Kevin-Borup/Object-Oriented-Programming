@@ -1,0 +1,16 @@
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\bin\Debug\net5.0\OOPGeometry.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\bin\Debug\net5.0\OOPGeometry.deps.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\bin\Debug\net5.0\OOPGeometry.runtimeconfig.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\bin\Debug\net5.0\OOPGeometry.runtimeconfig.dev.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\bin\Debug\net5.0\OOPGeometry.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\bin\Debug\net5.0\ref\OOPGeometry.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\bin\Debug\net5.0\OOPGeometry.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\obj\Debug\net5.0\OOPGeometry.csproj.AssemblyReference.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\obj\Debug\net5.0\OOPGeometry.GeneratedMSBuildEditorConfig.editorconfig
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\obj\Debug\net5.0\OOPGeometry.AssemblyInfoInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\obj\Debug\net5.0\OOPGeometry.AssemblyInfo.cs
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\obj\Debug\net5.0\OOPGeometry.csproj.CoreCompileInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\obj\Debug\net5.0\OOPGeometry.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\obj\Debug\net5.0\ref\OOPGeometry.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\obj\Debug\net5.0\OOPGeometry.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPGeometry\obj\Debug\net5.0\OOPGeometry.genruntimeconfig.cache
