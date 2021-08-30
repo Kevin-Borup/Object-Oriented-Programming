@@ -16,17 +16,13 @@ namespace OOPPlanets
             Planet neptun = new Planet("Neptun");
             Planet pluto = new Planet("Pluto");
 
-
-
-
-
             List<Planet> milkyway = new List<Planet>();
 
         }
 
         void grossPlanetDetailer(Planet planet)
         {
-
+            switch planet.name
         }
     }
 }
