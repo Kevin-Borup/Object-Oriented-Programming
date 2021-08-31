@@ -1,0 +1,16 @@
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\obj\Debug\net5.0\OOPPlanets.csproj.AssemblyReference.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\obj\Debug\net5.0\OOPPlanets.GeneratedMSBuildEditorConfig.editorconfig
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\obj\Debug\net5.0\OOPPlanets.AssemblyInfoInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\obj\Debug\net5.0\OOPPlanets.AssemblyInfo.cs
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\obj\Debug\net5.0\OOPPlanets.csproj.CoreCompileInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\bin\Debug\net5.0\OOPPlanets.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\bin\Debug\net5.0\OOPPlanets.deps.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\bin\Debug\net5.0\OOPPlanets.runtimeconfig.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\bin\Debug\net5.0\OOPPlanets.runtimeconfig.dev.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\bin\Debug\net5.0\OOPPlanets.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\bin\Debug\net5.0\ref\OOPPlanets.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\bin\Debug\net5.0\OOPPlanets.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\obj\Debug\net5.0\OOPPlanets.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\obj\Debug\net5.0\ref\OOPPlanets.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\obj\Debug\net5.0\OOPPlanets.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPPlanets\obj\Debug\net5.0\OOPPlanets.genruntimeconfig.cache

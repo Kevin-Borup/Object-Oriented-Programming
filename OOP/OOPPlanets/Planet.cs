@@ -9,6 +9,7 @@ namespace OOPPlanets
     class Planet
     {
         private string name;
+        private float mass;
         private int diameter;
         private int density;
         private float gravity;
@@ -29,6 +30,11 @@ namespace OOPPlanets
         public string Name
         {
             get { return this.name; }
+        }
+        public float Mass
+        {
+            get { return this.mass; }
+            set { this.mass = value; }
         }
 
         public int Diameter
