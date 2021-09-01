@@ -1,0 +1,16 @@
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\obj\Debug\net5.0\OOPQueue.csproj.AssemblyReference.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\obj\Debug\net5.0\OOPQueue.GeneratedMSBuildEditorConfig.editorconfig
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\obj\Debug\net5.0\OOPQueue.AssemblyInfoInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\obj\Debug\net5.0\OOPQueue.AssemblyInfo.cs
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\obj\Debug\net5.0\OOPQueue.csproj.CoreCompileInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\bin\Debug\net5.0\OOPQueue.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\bin\Debug\net5.0\OOPQueue.deps.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\bin\Debug\net5.0\OOPQueue.runtimeconfig.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\bin\Debug\net5.0\OOPQueue.runtimeconfig.dev.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\bin\Debug\net5.0\OOPQueue.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\bin\Debug\net5.0\ref\OOPQueue.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\bin\Debug\net5.0\OOPQueue.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\obj\Debug\net5.0\OOPQueue.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\obj\Debug\net5.0\ref\OOPQueue.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\obj\Debug\net5.0\OOPQueue.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPQueue\obj\Debug\net5.0\OOPQueue.genruntimeconfig.cache
