@@ -13,7 +13,7 @@ namespace OOPQueue
                 "==================================================\n" +
                 "|                                                |\n" +
                 "|              Radio Operation Menu              |\n" +
-                "|                                                |\n" +
+                "|                    Main Menu                   |\n" +
                 "==================================================\n" +
                 "\n" +
                 "1. Add song \n" +
@@ -31,37 +31,116 @@ namespace OOPQueue
             }
             public static void AddSong()
             {
+                string addSong =
+                "==================================================\n" +
+                "|                                                |\n" +
+                "|              Radio Operation Menu              |\n" +
+                "|                   Add a song                   |\n" +
+                "==================================================\n" +
+                "\n" +
+                "Song title: ";
 
+                Console.Clear();
+                Console.Write(addSong);
             }
             public static void RemoveSong()
             {
+                string removeSong =
+                "==================================================\n" +
+                "|                                                |\n" +
+                "|              Radio Operation Menu              |\n" +
+                "|                 Remove a song                  |\n" +
+                "==================================================\n" +
+                "\n" +
+                "Song title: ";
 
+                Console.Clear();
+                Console.Write(removeSong);
             }
-            public static void TrackLength()
+            public static void PlaylistLength()
             {
+                string playlistLength =
+                "==================================================\n" +
+                "|                                                |\n" +
+                "|              Radio Operation Menu              |\n" +
+                "|                Playlist Length                 |\n" +
+                "==================================================\n" +
+                "\n" +
+                "Song count of the playlist: ";
 
+                Console.Clear();
+                Console.Write(playlistLength);
             }
             public static void SongLength()
             {
+                string songLength =
+                "==================================================\n" +
+                "|                                                |\n" +
+                "|              Radio Operation Menu              |\n" +
+                "|                  Song Length                   |\n" +
+                "==================================================\n" +
+                "\n" +
+                "The longest song is: ";
 
+                Console.Clear();
+                Console.Write(songLength);
             }
             public static void SearchSong()
             {
+                string searchSong =
+                "==================================================\n" +
+                "|                                                |\n" +
+                "|              Radio Operation Menu              |\n" +
+                "|               Search for a song                |\n" +
+                "==================================================\n" +
+                "\n" +
+                "Song title: ";
 
+                Console.Clear();
+                Console.Write(searchSong);
             }
             public static void SongList()
             {
+                string songList =
+                "==================================================\n" +
+                "|                                                |\n" +
+                "|              Radio Operation Menu              |\n" +
+                "|                    Playlist                    |\n" +
+                "==================================================\n" +
+                "\n" +
+                "";
 
+                Console.Clear();
+                Console.Write(songList);
             }
             public static void Shutdown()
             {
+                string goodbye =
+                "==================================================\n" +
+                "|                                                |\n" +
+                "|            This was the radio system           |\n" +
+                "|                Have a nice day :)              |\n" +
+                "==================================================\n";
+
                 Console.Clear();
-                Console.WriteLine("Have a nice day! :)");
+                Console.WriteLine(goodbye);
+            }
+            public static void Writer(string output, char varient = ' ')
+            {
+                if (varient != 'n')
+                {
+                    Console.Write(output);
+                }
+                else
+                {
+                    Console.WriteLine(output);
+                }
             }
         }
 
-        public static dynamic InputReader<T>()
+        public static dynamic InputReader<T>(string output = "")
         {
+            Console.Write(output);
             string input = Console.ReadLine();
 
             if (typeof(T) == typeof(int))
