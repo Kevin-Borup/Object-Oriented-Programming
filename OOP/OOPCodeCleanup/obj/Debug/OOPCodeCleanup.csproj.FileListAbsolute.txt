@@ -1,0 +1,7 @@
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPCodeCleanup\bin\Debug\OOPCodeCleanup.exe.config
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPCodeCleanup\bin\Debug\OOPCodeCleanup.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPCodeCleanup\bin\Debug\OOPCodeCleanup.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPCodeCleanup\obj\Debug\OOPCodeCleanup.csproj.AssemblyReference.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPCodeCleanup\obj\Debug\OOPCodeCleanup.csproj.CoreCompileInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPCodeCleanup\obj\Debug\OOPCodeCleanup.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPCodeCleanup\obj\Debug\OOPCodeCleanup.pdb
