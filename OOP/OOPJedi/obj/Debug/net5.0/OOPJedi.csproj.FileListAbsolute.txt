@@ -1,0 +1,16 @@
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\bin\Debug\net5.0\OOPJedi.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\bin\Debug\net5.0\OOPJedi.deps.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\bin\Debug\net5.0\OOPJedi.runtimeconfig.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\bin\Debug\net5.0\OOPJedi.runtimeconfig.dev.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\bin\Debug\net5.0\OOPJedi.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\bin\Debug\net5.0\ref\OOPJedi.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\bin\Debug\net5.0\OOPJedi.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\obj\Debug\net5.0\OOPJedi.csproj.AssemblyReference.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\obj\Debug\net5.0\OOPJedi.GeneratedMSBuildEditorConfig.editorconfig
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\obj\Debug\net5.0\OOPJedi.AssemblyInfoInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\obj\Debug\net5.0\OOPJedi.AssemblyInfo.cs
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\obj\Debug\net5.0\OOPJedi.csproj.CoreCompileInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\obj\Debug\net5.0\OOPJedi.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\obj\Debug\net5.0\ref\OOPJedi.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\obj\Debug\net5.0\OOPJedi.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJedi\obj\Debug\net5.0\OOPJedi.genruntimeconfig.cache
