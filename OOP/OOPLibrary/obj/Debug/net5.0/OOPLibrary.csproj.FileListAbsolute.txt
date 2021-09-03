@@ -1,0 +1,16 @@
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\bin\Debug\net5.0\OOPLibrary.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\bin\Debug\net5.0\OOPLibrary.deps.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\bin\Debug\net5.0\OOPLibrary.runtimeconfig.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\bin\Debug\net5.0\OOPLibrary.runtimeconfig.dev.json
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\bin\Debug\net5.0\OOPLibrary.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\bin\Debug\net5.0\ref\OOPLibrary.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\bin\Debug\net5.0\OOPLibrary.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\obj\Debug\net5.0\OOPLibrary.csproj.AssemblyReference.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\obj\Debug\net5.0\OOPLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\obj\Debug\net5.0\OOPLibrary.AssemblyInfoInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\obj\Debug\net5.0\OOPLibrary.AssemblyInfo.cs
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\obj\Debug\net5.0\OOPLibrary.csproj.CoreCompileInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\obj\Debug\net5.0\OOPLibrary.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\obj\Debug\net5.0\ref\OOPLibrary.dll
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\obj\Debug\net5.0\OOPLibrary.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPLibrary\obj\Debug\net5.0\OOPLibrary.genruntimeconfig.cache
