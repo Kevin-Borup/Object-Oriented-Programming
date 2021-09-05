@@ -12,38 +12,40 @@ namespace OOPCodeCleanup
 
         public static void Process()
         {
+            /*
+            1. GetDiskMetadata
+            2. GetHardDiskSerialNumber
+            3. CPUUsage
+            4. MainStorage
+            5. GetOSInfo
+            6. TestHest
+            7. ListAllService
+            */
+
             GetDiskMetadata();
             GetHardDiskSerialNumber();
 
             GUI.CPUPrinter(new ManagementObjectSearcher("select * from Win32_PerfFormattedData_PerfOS_Processor"));
-            Console.ReadKey();
-
+            
             hovedLager();
-            test();
-            testhest();
+            GetOSInfo();
+            GetBootDeviceInfo();
 
-            Console.WriteLine("process søgnimg");
+            Console.WriteLine("process søgning");
             LISTAllServices();
             Console.ReadKey();
         }
 
-        static void test()
+        static void GetOSInfo()
         {
             ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
-            ManagementObjectCollection results = searcher.Get();
-            foreach (ManagementObject result in results)
-            {
-                Console.WriteLine("User:\t{0}", result["RegisteredUser"]);
-                Console.WriteLine("Org.:\t{0}", result["Organization"]);
-                Console.WriteLine("O/S :\t{0}", result["Name"]);
-            }
+            GUI.OSPrinter(searcher.Get());
         }
 
-        static void testhest()
+        static void GetBootDeviceInfo()
         {
-            Console.WriteLine("testhest start");
-            ManagementScope scope = new ManagementScope("\\\\.\\ROOT\\cimv2");
+            ManagementScope scope = new ManagementScope(@"\\.\ROOT\cimv2");
 
             //create object query
             ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
@@ -60,7 +62,6 @@ namespace OOPCodeCleanup
                 // access properties of the WMI object
                 Console.WriteLine("BootDevice : {0}", m["BootDevice"]);
             }
-            Console.WriteLine("testhest slut");
         }
         static List<string> PopulateDisk()
         {
@@ -95,7 +96,6 @@ namespace OOPCodeCleanup
 
         static void GetDiskMetadata()
         {
-
             ManagementScope managementScope = new ManagementScope();
 
             ObjectQuery objectQuery = new ObjectQuery("select FreeSpace,Size,Name from Win32_LogicalDisk where DriveType=3");
@@ -111,20 +111,16 @@ namespace OOPCodeCleanup
                                   $"Disk Size: {managementObject["Size"]}\n" +
                                   $"---------------------------------------------------\n");
             }
-
         }
 
         static string GetHardDiskSerialNumber(string drive = "C")
-
         {
-
             ManagementObject managementObject = new ManagementObject("Win32_LogicalDisk.DeviceID=\"" + drive + ":\"");
 
             managementObject.Get();
             Console.WriteLine(managementObject["VolumeSerialNumber"].ToString());
 
             return managementObject["VolumeSerialNumber"].ToString();
-
         }
 
         private static void LISTAllServices()
@@ -149,5 +145,4 @@ namespace OOPCodeCleanup
             }
         }
     }
-
 }
