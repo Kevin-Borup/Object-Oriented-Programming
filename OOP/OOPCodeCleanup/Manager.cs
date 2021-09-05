@@ -12,137 +12,77 @@ namespace OOPCodeCleanup
 
         public static void Process()
         {
+            // The program is setup to run in this manner
+            // Each method called in this logic layer, updates the value on the WMIStorage to the newer correct value
+            // Then the method to print this updated data is called from the GUI methods.
+            // The GUI is able to use the WMIStorage properties, as they now provide updates information.
             /*
-            1. GetDiskMetadata
-            2. GetHardDiskSerialNumber
-            3. CPUUsage
-            4. MainStorage
-            5. GetOSInfo
-            6. TestHest
-            7. ListAllService
+             * OS Info
+             * OS Print
+             * Boot Device Info
+             * Boot Device Print
+             * CPU Info
+             * CPU Print
+             * Harddisk Serial Number Info
+             * Harddisk Serial Number Print
+             * Disk Metadata Info
+             * Disk Metadata Print
+             * RAM Info
+             * RAM Print
+             * Services Info
+             * Services Print
             */
 
-            GetDiskMetadata();
-            GetHardDiskSerialNumber();
-
-            GUI.CPUPrinter(new ManagementObjectSearcher("select * from Win32_PerfFormattedData_PerfOS_Processor"));
-            
-            hovedLager();
-            GetOSInfo();
-            GetBootDeviceInfo();
-
-            Console.WriteLine("process søgning");
-            LISTAllServices();
-            Console.ReadKey();
+            UpdateOSInfo();
+            GUI.OSPrinter();
+            UpdateBootDeviceInfo();
+            GUI.BootPrinter();
+            UpdateCPUInfo();
+            GUI.CPUPrinter();
+            UpdateHarddiskSerialNumber();
+            GUI.HarddiskSerialPrinter();
+            UpdateDiskMetadata();
+            GUI.DiskMetadataPrinter();
+            UpdateRAMInfo();
+            GUI.RAMPrinter();
+            UpdateServicesInfo();
+            GUI.ServicePrinter();
         }
-
-        static void GetOSInfo()
+        static void UpdateOSInfo()
         {
-            ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
-            GUI.OSPrinter(searcher.Get());
+            WMIStorage.WinQuery = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
+            WMIStorage.WinSearch = new ManagementObjectSearcher(WMIStorage.WinQuery);
         }
-
-        static void GetBootDeviceInfo()
+        static void UpdateBootDeviceInfo()
         {
-            ManagementScope scope = new ManagementScope(@"\\.\ROOT\cimv2");
-
-            //create object query
-            ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
-
-            //create object searcher
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
-
-            //get a collection of WMI objects
-            ManagementObjectCollection queryCollection = searcher.Get();
-
-            //enumerate the collection.
-            foreach (ManagementObject m in queryCollection)
-            {
-                // access properties of the WMI object
-                Console.WriteLine("BootDevice : {0}", m["BootDevice"]);
-            }
+            WMIStorage.SearchScope = new ManagementScope(@"\\.\ROOT\cimv2");
+            WMIStorage.WinQuery = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
+            WMIStorage.WinSearch = new ManagementObjectSearcher(WMIStorage.SearchScope, WMIStorage.WinQuery);
         }
-        static List<string> PopulateDisk()
+        static void UpdateCPUInfo()
         {
-            List<string> disk = new List<string>();
-
-            SelectQuery selectQuery = new SelectQuery("Win32_LogicalDisk");
-
-            ManagementObjectSearcher mnagementObjectSearcher = new ManagementObjectSearcher(selectQuery);
-
-            foreach (ManagementObject managementObject in mnagementObjectSearcher.Get())
-            {
-                disk.Add(managementObject.ToString());
-            }
-            return disk;
+            WMIStorage.WinQuery = new ObjectQuery("select * from Win32_PerfFormattedData_PerfOS_Processor");
+            WMIStorage.WinSearch = new ManagementObjectSearcher(WMIStorage.WinQuery);
         }
-
-        static void hovedLager()
+        static void UpdateHarddiskSerialNumber(string drive = "C")
         {
-            ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
-            ManagementObjectCollection results = searcher.Get();
-
-            foreach (ManagementObject result in results)
-            {
-                Console.WriteLine($"Total Visible Memory: {result["TotalVisibleMemorySize"]}KB\n" +
-                                  $"Free Physical Memory: {result["FreePhysicalMemory"]}KB\n" +
-                                  $"Total Virtual Memory: {result["TotalVirtualMemorySize"]}KB\n" +
-                                  $"Free Virtual Memory: {result["FreeVirtualMemory"]}KB\n");
-            }
+            WMIStorage.Volume = drive;
+            WMIStorage.VolumeSE = new ManagementObject($@"Win32_LogicalDisk.DeviceID=""{WMIStorage.Volume}:""");
         }
-
-
-        static void GetDiskMetadata()
+        static void UpdateDiskMetadata()
         {
-            ManagementScope managementScope = new ManagementScope();
-
-            ObjectQuery objectQuery = new ObjectQuery("select FreeSpace,Size,Name from Win32_LogicalDisk where DriveType=3");
-
-            ManagementObjectSearcher managementObjectSearcher = new ManagementObjectSearcher(managementScope, objectQuery);
-
-            ManagementObjectCollection managementObjectCollection = managementObjectSearcher.Get();
-
-            foreach (ManagementObject managementObject in managementObjectCollection)
-            {
-                Console.WriteLine($"Disk Name: {managementObject["Name"]}\n" +
-                                  $"FreeSpace: {managementObject["FreeSpace"]}\n" +
-                                  $"Disk Size: {managementObject["Size"]}\n" +
-                                  $"---------------------------------------------------\n");
-            }
+            WMIStorage.SearchScope = new ManagementScope();
+            WMIStorage.WinQuery = new ObjectQuery("select FreeSpace,Size,Name from Win32_LogicalDisk where DriveType=3");
+            WMIStorage.WinSearch = new ManagementObjectSearcher(WMIStorage.SearchScope, WMIStorage.WinQuery);
         }
-
-        static string GetHardDiskSerialNumber(string drive = "C")
+        static void UpdateRAMInfo()
         {
-            ManagementObject managementObject = new ManagementObject("Win32_LogicalDisk.DeviceID=\"" + drive + ":\"");
-
-            managementObject.Get();
-            Console.WriteLine(managementObject["VolumeSerialNumber"].ToString());
-
-            return managementObject["VolumeSerialNumber"].ToString();
+            WMIStorage.WinQuery = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
+            WMIStorage.WinSearch = new ManagementObjectSearcher(WMIStorage.WinQuery);
         }
-
-        private static void LISTAllServices()
+        private static void UpdateServicesInfo()
         {
-            ManagementObjectSearcher windowsServicesSearcher = new ManagementObjectSearcher("root\\cimv2", "select * from Win32_Service");
-            ManagementObjectCollection objectCollection = windowsServicesSearcher.Get();
-
-            Console.WriteLine("There are {0} Windows services: ", objectCollection.Count);
-
-            foreach (ManagementObject windowsService in objectCollection)
-            {
-                PropertyDataCollection serviceProperties = windowsService.Properties;
-                foreach (PropertyData serviceProperty in serviceProperties)
-                {
-                    if (serviceProperty.Value != null)
-                    {
-                        Console.WriteLine("Windows service property name: {0}", serviceProperty.Name);
-                        Console.WriteLine("Windows service property value: {0}", serviceProperty.Value);
-                    }
-                }
-                Console.WriteLine("---------------------------------------");
-            }
+            WMIStorage.WinSearch = new ManagementObjectSearcher(@"root\cimv2", "select * from Win32_Service");
         }
     }
 }
