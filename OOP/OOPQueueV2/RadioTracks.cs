@@ -3,10 +3,24 @@
 namespace OOPQueueV2
 {
     // Collection of songs (Database)
-    class RadioTracks
+    class RadioCollection
     {
-        public Queue<Song> tracklist = new Queue<Song>();
+        public List<Track> tracklist = new List<Track>();
+        public Dictionary<string, Queue<Song>> tracklist2 = new Dictionary<string, Queue<Song>>();
+        
     }
+
+    class Track
+    {
+        public string trackName;
+        public Queue<Song> track = new Queue<Song>();
+
+        public Track(string name)
+        {
+            trackName = name;
+        }
+    }
+
     class Song
     {
         public Song(string title, string artist)

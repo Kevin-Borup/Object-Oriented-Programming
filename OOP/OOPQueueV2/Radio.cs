@@ -7,41 +7,11 @@ namespace OOPQueueV2
     // Radio Manager (Logic)
     class Radio
     {
-        public void MenuNavigation(int input)
+        public void AddSong(string songTitle, string songArtist, string songLength)
         {
-            switch (input)
-            {
-                case 1:
-                    AddSong();
-                    break;
-                case 2:
-                    RemoveSong();
-                    break;
-                case 3:
-                    PlaylistLength();
-                    break;
-                case 4:
-                    SongLength();
-                    break;
-                case 5:
-                    SearchForSong();
-                    break;
-                case 6:
-                    SongList();
-                    break;
-                case 7:
-                    Shutdown();
-                    break;
-            }
-        }
-
-
-        private void AddSong()
-        {
-            gui.AddSong();
-            string songTitle = gui.InputReader<string>();
-            string songArtist = gui.InputReader<string>("Song artist: ");
-            string songLength = gui.InputReader<string>("Song length (mm:ss): ");
+             = gui.InputReader<string>();
+             = gui.InputReader<string>("Song artist: ");
+             = gui.InputReader<string>("Song length (mm:ss): ");
             int songLengthMin;
             int songLengthSec;
             int songLengthTSec;
@@ -59,7 +29,7 @@ namespace OOPQueueV2
             gui.Writer("Song Added.", 'n');
             Console.ReadLine();
         }
-        private void RemoveSong()
+        public void RemoveSong()
         {
             gui.RemoveSong();
             string songTitle = gui.InputReader<string>();
@@ -69,13 +39,13 @@ namespace OOPQueueV2
             gui.Writer("Song Removed.", 'n');
             Console.ReadLine();
         }
-        private void PlaylistLength()
+        public void PlaylistLength()
         {
             gui.PlaylistLength();
             Console.WriteLine(track.tracklist.Count);
             Console.ReadLine();
         }
-        private void SongLength()
+        public void SongLength()
         {
             gui.SongLength();
             int longSongTSec = track.tracklist.Max(song => song.TotalSec);
@@ -89,7 +59,7 @@ namespace OOPQueueV2
             Console.ReadLine();
 
         }
-        private void SearchForSong()
+        public void SearchForSong()
         {
             gui.SearchSong();
             string songTitle = gui.InputReader<string>();
@@ -109,7 +79,7 @@ namespace OOPQueueV2
             }
             Console.ReadLine();
         }
-        private void SongList()
+        public void SongList()
         {
             gui.SongList();
             int i = 0;
@@ -121,7 +91,7 @@ namespace OOPQueueV2
             }
             Console.ReadLine();
         }
-        private void Shutdown()
+        public void Shutdown()
         {
             gui.Shutdown();
             Console.ReadLine();
