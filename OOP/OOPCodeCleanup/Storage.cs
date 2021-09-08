@@ -27,7 +27,7 @@ namespace OOPCodeCleanup
         }
         public static ManagementObjectSearcher WinSearch
         {
-            get { return winSearch; }
+            get { return winSearch.Get(); }
             set { winSearch = value; }
         }
         public static ManagementScope SearchScope
