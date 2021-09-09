@@ -1,0 +1,12 @@
+name			cpr			
+address			prefered doctor
+email / tlf		years + day
+--------------------------------------
+Entries:
+dato - doc - desc
+dato - doc - desc
+dato - doc - desc
+dato - doc - desc
+dato - doc - desc
+dato - doc - desc
+
