@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OOPNavalStrategy
 {
-    partial class Program
+    class Program
     {
         static void Main(string[] args)
         {
