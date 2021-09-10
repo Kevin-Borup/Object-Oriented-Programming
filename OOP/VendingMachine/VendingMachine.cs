@@ -8,8 +8,10 @@ namespace VendingMachine
 {
     class VendingMachine
     {
+        private static int shelves = 3;
+        private static int slotsPerShelf = 5;
         Operation system = new Operation();
-        Ressource contents = new Ressource();
+        Ressource contents = new Ressource(shelves, slotsPerShelf);
 
         public void PoweredOn()
         {
@@ -37,7 +39,7 @@ namespace VendingMachine
         {
 
         }
-        public void RefillProducts()
+        public void RefillSlots()
         {
 
         }

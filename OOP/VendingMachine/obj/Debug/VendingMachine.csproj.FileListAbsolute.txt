@@ -1,0 +1,2 @@
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\VendingMachine\obj\Debug\VendingMachine.csproj.AssemblyReference.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\VendingMachine\obj\Debug\VendingMachine.csproj.CoreCompileInputs.cache
