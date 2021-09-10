@@ -1,0 +1,7 @@
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJournal\bin\Debug\OOPJournal.exe.config
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJournal\bin\Debug\OOPJournal.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJournal\bin\Debug\OOPJournal.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJournal\obj\Debug\OOPJournal.csproj.AssemblyReference.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJournal\obj\Debug\OOPJournal.csproj.CoreCompileInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJournal\obj\Debug\OOPJournal.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\OOPJournal\obj\Debug\OOPJournal.pdb
