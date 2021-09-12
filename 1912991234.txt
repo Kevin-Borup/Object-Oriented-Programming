@@ -1,6 +1,8 @@
-name			cpr			
-address			prefered doctor
-email / tlf		years + day
+name		
+address
+email / tlf
+cpr
+prefered doctor
 --------------------------------------
 Entries:
 dato - doc - desc

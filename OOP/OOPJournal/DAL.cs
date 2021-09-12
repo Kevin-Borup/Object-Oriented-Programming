@@ -39,19 +39,20 @@ namespace OOPJournal
             string[] journalArray = new string[5];
             List<string> entryList = new List<string>();
 
-            for (int i = 0; reader.EndOfStream; i++)
+            for (int i = 0; !reader.EndOfStream; i++)
             {
-                if (i < 6)
+                if (i < 5)
                 {
                     journalArray[i] = reader.ReadLine();
 
                 }
-                else if (8 > i)
+                else if (6 > i)
                 {
                     entryList.Add(reader.ReadLine());
                 }
             }
-
+            string name;
+            name.Split('-', StringSplitOptions.trim);
             reader.Close();
             entryArray = entryList.ToArray();
             return journalArray;

@@ -36,7 +36,9 @@ namespace OOPJournal
         int[,] cprAge;
         public JournalConnector()
         {
-            #region cprAge Array Setup
+
+            #region cprAge Array Setup (version 1)
+            /*
             uint[,] cprAge = new uint[4, 99];
             for (int i = 0; i < cprAge.Length; i++)
             {
@@ -81,7 +83,35 @@ namespace OOPJournal
                     }
                 }
             }
+            */
             #endregion
+
+            #region cprAge Array Setup (version 2)
+            uint[,] cprAge = new uint[4, 99];
+            for (int i = 0; i < cprAge.Length; i++)
+            {
+                for (int j = 0; j < cprAge.GetLength(i); j++)
+                {
+                    if (i < 4)
+                    {
+                        cprAge[i, j] = 19;
+                    }
+                    else if (i < 5)
+                    {
+                        if (j < 37) cprAge[i, j] = 20; else cprAge[i, j] = 19;
+                    }
+                    else if (i < 9)
+                    {
+                        if (j < 58) cprAge[i, j] = 20; else cprAge[i, j] = 19;
+                    }
+                    else
+                    {
+                        if (j < 37) cprAge[i, j] = 20; else cprAge[i, j] = 19;
+                    }
+                }
+            }
+            #endregion
+
         }
         public string AgeCalculator(uint cpr)
         {
