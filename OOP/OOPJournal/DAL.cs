@@ -9,11 +9,14 @@ namespace OOPJournal
 {
     class DAL
     {
-        private string folderPath = @".\HealthClinic";
+        private readonly string folderPath = "HealthClinic";
         private string fileFullPath;
-        FileStream patientFile;
-        StreamReader reader;
-        StreamWriter writer;
+        private FileStream patientFile;
+
+        public DAL()
+        {
+            Directory.CreateDirectory(folderPath);
+        }
 
         private void UpdatePath(string cpr)
         {
@@ -29,16 +32,15 @@ namespace OOPJournal
             }
             catch (IOException)
             {
-                Console.WriteLine("The Patient journal file already exists.");
-                patientFile.Close();
                 return false;
             }
-            writer = new StreamWriter(patientFile);
+            StreamWriter writer = new StreamWriter(patientFile);
 
-            for (int i = 0; i < patientFile.Length; i++)
+            for (int i = 0; i < patientInfo.Length; i++)
             {
                 writer.WriteLine(patientInfo[i]);
             }
+
             writer.WriteLine("--------------------------------------");
             writer.Close();
             return true;
@@ -47,19 +49,23 @@ namespace OOPJournal
         {
             UpdatePath(cpr);
             patientFile = new FileStream(fileFullPath, FileMode.Open);
-            reader = new StreamReader(patientFile);
+            StreamReader reader = new StreamReader(patientFile);
 
-            string[] journalArray = new string[5];
+            string[] journalArray = new string[6];
             List<string> entryList = new List<string>();
 
             for (int i = 0; !reader.EndOfStream; i++)
             {
-                if (i < 6)
+                if (i < journalArray.Length)
                 {
                     journalArray[i] = reader.ReadLine();
 
                 }
-                else if (6 > i)
+                else if (i == 6)
+                {
+                    reader.ReadLine();
+                }
+                else if (journalArray.Length < i)
                 {
                     entryList.Add(reader.ReadLine());
                 }
@@ -72,7 +78,7 @@ namespace OOPJournal
         {
             UpdatePath(cpr);
             patientFile = new FileStream(fileFullPath, FileMode.Append);
-            writer = new StreamWriter(patientFile);
+            StreamWriter writer = new StreamWriter(patientFile);
 
             writer.WriteLine($"{entry.TimeFormat}: {entry.Doctor} - {entry.Description}");
 

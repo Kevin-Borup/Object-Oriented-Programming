@@ -8,13 +8,11 @@ namespace OOPJournal
 {
     class Manager
     {
-        DAL database = new DAL();
-        JournalConnector journalConnector = new JournalConnector();
-        public void CreateJournalFile(string name, string cpr, string address, string phone, string email, string prefDoctor)
+        private readonly DAL database = new DAL();
+        private readonly JournalConnector journalConnector = new JournalConnector();
+        public bool CreateJournalFile(string[] patientInfo)
         {
-            string[] patientInfo = journalConnector.CreateJournalString(name, cpr, address, phone, email, prefDoctor);
-
-            database.CreateJournalFile(patientInfo);
+            return database.CreateJournalFile(patientInfo);
         }
         public void AddEntry(Journal currentJournal, string doctor, string description)
         {
@@ -24,38 +22,35 @@ namespace OOPJournal
 
         public Journal LoadJournalFromFile(string cpr)
         {
-            string[] journalInfo;
-            string[] entryArray;
+            string[] journalInfo = database.LoadFromFile(cpr, out string[] entryArray);
 
-            journalInfo = database.LoadFromFile(cpr, out entryArray);
-
-            return journalConnector.JournalCreation(journalInfo);
+            return journalConnector.GetJournal(journalInfo, entryArray);
         }
-        public JournalEntry GetEntry(Journal currentJournal, ref int index)
+        public JournalEntry GetNextEntry(Journal currentJournal)
         {
-
-            return JournalEntry;
+            return journalConnector.GetEntry(currentJournal);
         }
-        public string AgeShowcase()
+        public JournalEntry GetPreviousEntry(Journal currentJournal)
         {
-            return string.Empty;
+            return journalConnector.GetPreviousEntry(currentJournal);
         }
-        public void JournalNavigator(sbyte key)
+        public string[] AgeShowcase(string cpr)
         {
-
+            return journalConnector.AgeCalculator(cpr);
         }
     }
 
     class JournalConnector
     {
-        int[,] cprAge;
-        Journal currentJournal;
+        private readonly int[,] cprAge;
+        private int entryIndex = 0;
+        private Journal currentJournal;
         public JournalConnector()
         {
 
             #region cprAge Array Setup (version 1)
             /*
-            uint[,] cprAge = new uint[4, 99];
+            int[,] cprAge = new int[10, 99];
             for (int i = 0; i < cprAge.Length; i++)
             {
                 for (int j = 0; j < cprAge.GetLength(i); j++)
@@ -103,20 +98,20 @@ namespace OOPJournal
             #endregion
 
             #region cprAge Array Setup (version 2)
-            uint[,] cprAge = new uint[4, 100];
-            for (int i = 0; i < cprAge.Length; i++)
+            cprAge = new int[10, 100];
+            for (int i = 0; i < cprAge.GetLength(0); i++)
             {
-                for (int j = 0; j < cprAge.GetLength(i); j++)
+                for (int j = 0; j < cprAge.GetLength(1); j++)
                 {
-                    if (i == 0)
+                    if (i < 4)
                     {
                         cprAge[i, j] = 19;
                     }
-                    else if (i == 1)
+                    else if (i < 5)
                     {
                         if (j < 37) cprAge[i, j] = 20; else cprAge[i, j] = 19;
                     }
-                    else if (i == 2)
+                    else if (i < 9)
                     {
                         if (j < 58) cprAge[i, j] = 20; else cprAge[i, j] = 19;
                     }
@@ -129,12 +124,12 @@ namespace OOPJournal
             #endregion
 
         }
-        public string BirthDateCalculator(string cpr)
+        private string BirthDateCalculator(string cpr)
         {
             // 1912991234
-            uint year = Convert.ToUInt32(cpr.Substring(4, 2));
+            int year = Convert.ToInt32(cpr.Substring(4, 2));
             // 99
-            uint cpr1 = Convert.ToUInt32(cpr.Substring(6, 1));
+            int cpr1 = Convert.ToInt32(cpr.Substring(6, 1));
             // 1
             string birthCenYear = cprAge[cpr1, year].ToString() + year.ToString();
             // 19 + 99 = 1999
@@ -145,28 +140,22 @@ namespace OOPJournal
 
             return birthDate;
         }
-        public string AgeCalculator(string cpr)
+        public string[] AgeCalculator(string cpr)
         {
+            string[] age = new string[2];
             string birthDate = BirthDateCalculator(cpr);
+            DateTime today = DateTime.Now;
+            DateTime birthDateTime = DateTime.ParseExact(birthDate, "ddMMyyyy", null);
 
-            return string.Empty;
-        }
-        public string FileToString(uint cpr)
-        {
-            return string.Empty;
-        }
-        public string[] CreateJournalString(string name, string cpr, string address, string phone, string email, string prefDoctor)
-        {
-            string[] patientInfo = new string[6];
+            int daysInBetween = -(today.DayOfYear - birthDateTime.DayOfYear);
 
-            patientInfo[0] = name;
-            patientInfo[1] = cpr;
-            patientInfo[2] = address;
-            patientInfo[3] = phone;
-            patientInfo[4] = email;
-            patientInfo[5] = prefDoctor;
+            string years = (today.Year - 1 - birthDateTime.Year).ToString();
+            string days = (365 - daysInBetween).ToString();
 
-            return patientInfo;
+            age[0] = years;
+            age[1] = days;
+
+            return age;
         }
         public Journal JournalCreation(string[] patientInfo)
         {
@@ -176,14 +165,17 @@ namespace OOPJournal
         {
             currentJournal = new Journal(journalInfo);
 
-            for (int i = 0; i < entryArray.Length; i++)
+            if (entryArray.Length > 0)
             {
-                string[] entry = EntrySplitter(entryArray[i]);
+                for (int i = 0; i < entryArray.Length; i++)
+                {
+                    string[] entry = EntrySplitter(entryArray[i]);
 
-                currentJournal.AddJournalEntry(entry);
+                    currentJournal.RecreateJournalEntry(entry[0], entry[1], entry[2]);
+                }
             }
 
-            return new Journal(patientInfo);
+            return currentJournal;
         }
         private string[] EntrySplitter(string entry)
         {
@@ -196,14 +188,36 @@ namespace OOPJournal
             }
             return entrySplit;
         }
-        public void GetEntry()
+        public JournalEntry GetEntry(Journal currentJournal)
         {
+            JournalEntry currentEntry = null;
 
+            if (currentJournal.Entries != null)
+            {
+                List<JournalEntry> entries = currentJournal.Entries;
+                if (entryIndex < entries.Count && entries != null)
+                {
+                    currentEntry = entries[entryIndex];
+                    entryIndex++;
+                }
+            }
+
+            return currentEntry;
         }
-
-        public void JournalNavigator(sbyte key)
+        public JournalEntry GetPreviousEntry(Journal currentJournal)
         {
+            List<JournalEntry> entries = currentJournal.Entries;
+            JournalEntry currentEntry = null;
 
+            int previousEntry = entryIndex - 1;
+
+            if (0 <= previousEntry)
+            {
+                currentEntry = entries[previousEntry];
+                entryIndex = previousEntry;
+            }
+
+            return currentEntry;
         }
     }
 }

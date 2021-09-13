@@ -27,11 +27,11 @@ namespace OOPJournal
         }
         public void AddJournalEntry(string doctor, string description)
         {
-            entries.Add(new JournalEntry(doctor, description));
+            Entries.Add(new JournalEntry(doctor, description));
         }
-        public void CreateJournalEntry(string date, string doctor, string description)
+        public void RecreateJournalEntry(string date, string doctor, string description)
         {
-            entries.Add(new JournalEntry(doctor, description));
+            Entries.Add(new JournalEntry(date, doctor, description));
         }
         public string Name { get { return name; } private set { name = value; } }
         public string Cpr { get { return cpr; } private set { cpr = value; } }
@@ -49,15 +49,15 @@ namespace OOPJournal
         private string description;
         public JournalEntry(string doctor, string description)
         {
-            timeFormat = DateTime.Now;
-            this.doctor = doctor;
-            this.description = description;
+            TimeFormat = DateTime.Now;
+            Doctor = doctor;
+            Description = description;
         }
         public JournalEntry(string date, string doctor, string description)
         {
-            timeFormat = Convert.ToDateTime(date);
-            this.doctor = doctor;
-            this.description = description;
+            TimeFormat = Convert.ToDateTime(date);
+            Doctor = doctor;
+            Description = description;
         }
         public DateTime TimeFormat { get { return timeFormat; } set { timeFormat = value; } }
         public string Doctor { get { return doctor; } set { doctor = value; } }

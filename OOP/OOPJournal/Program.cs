@@ -18,27 +18,24 @@ namespace OOPJournal
     }
     class System
     {
-        Manager mg = new Manager();
+        readonly Manager mg = new Manager();
         public void Process()
         {
-            string[] journalDetails;
-            string[] entries;
-
-            MainHeader();
-            MainMenu();
-            MainChoice();
+            Console.SetBufferSize(143, 9000);
+            Console.SetWindowSize(Console.BufferWidth, 41);
             
+            MainChoice();   
         }
-        public void MainHeader()
+        private void MainHeader()
         {
             Console.WriteLine(@"
-                    ,                _      _         ___  _                     
-                   /|   |           | |    | |       / (_)| | o          o       
-                    |___|  _   __,  | |_|_ | |      |     | |     _  _       __  
-                    |   |\|/  /  |  |/  |  |/ \     |     |/  |  / |/ |  |  /    
-                    |   |/|__/\_/|_/|__/|_/|   |_/   \___/|__/|_/  |  |_/|_/\___/");
+ ,                _      _         ___  _                     
+/|   |           | |    | |       / (_)| | o          o       
+ |___|  _   __,  | |_|_ | |      |     | |     _  _       __  
+ |   |\|/  /  |  |/  |  |/ \     |     |/  |  / |/ |  |  /    
+ |   |/|__/\_/|_/|__/|_/|   |_/   \___/|__/|_/  |  |_/|_/\___/");
         }
-        public void MainMenu()
+        private void MainMenu()
         {
             Console.Write("\n" +
                           "1. Create Patient Journal\n" +
@@ -49,10 +46,12 @@ namespace OOPJournal
                           "Enter your choice: ");
 
         }
-        public void MainChoice()
+        private void MainChoice()
         {
             while (true)
             {
+                MainHeader();
+                MainMenu();
                 switch (InputReader<int>())
                 {
                     case 1:
@@ -72,38 +71,74 @@ namespace OOPJournal
                 }
             }
         }
-        public void CreateJournal()
+        private void CreateJournal()
         {
-            string journal =
-                "Name: \n" +
-                "CPR: \n" +
-                "Address: \n" +
-                "Phone: \n" +
-                "Email: \n" +
-                "PrefDoctor: \n";
             Console.Clear();
-            Console.WriteLine(journal);
+            string[] userInfo = new string[6];
+            string[] journalHeaders = new string[6];
+            journalHeaders[0] = "Name: ";
+            journalHeaders[1] = "CPR: ";
+            journalHeaders[2] = "Address: ";
+            journalHeaders[3] = "Phone: ";
+            journalHeaders[4] = "Email: ";
+            journalHeaders[5] = "Prefered Doctor: ";
 
+            PrintHeader(journalHeaders, userInfo);
+            for (int i = 0; i < journalHeaders.Length; i++)
+            {
+                Console.SetCursorPosition(journalHeaders[i].Length, i);
+                userInfo[i] = Console.ReadLine();
+                Console.Clear();
+                PrintHeader(journalHeaders, userInfo);
+            }
+
+            if (mg.CreateJournalFile(userInfo))
+            {
+                Console.WriteLine("Success: The journal for this patient has been created.");
+                Console.ReadKey();
+                Console.Clear();
+            } 
+            else
+            {
+                Console.WriteLine("Cancelled: The journal for this patient already exists.");
+                Console.ReadKey();
+                Console.Clear();
+                return;
+
+            }
+            Journal currentJournal = mg.LoadJournalFromFile(userInfo[1]);
+            ShowJournalInfo(currentJournal);
+            ShowEntry(mg.GetNextEntry(currentJournal));
+            AddEntry(currentJournal);
         }
-        public void ShowJournal()
+        private void PrintHeader(string[] journalHeaders, string[] userInfo)
         {
-            string cpr = InputReader<string>("Write the CPR of the patient: ");
+            for (int i = 0; i < journalHeaders.Length; i++)
+            {
+                Console.WriteLine(journalHeaders[i] + userInfo[i]);
+            }
+        }
+        private void ShowJournal(string cpr = "")
+        {
+            if (cpr.Equals(""))
+            {
+                cpr = InputReader<string>("Write the CPR of the patient: ");
+            }
             Journal currentJournal = mg.LoadJournalFromFile(cpr);
             ShowJournalInfo(currentJournal);
-            int index = 0;
-            ShowEntry(mg.GetEntry(currentJournal, ref index));
-            ShowControls();
-            JournalControls();
+            JournalControls(currentJournal);
         }
-        private void JournalControls()
+        private void JournalControls(Journal currentJournal)
         {
+            ShowEntry(mg.GetNextEntry(currentJournal));
             while (true)
             {
+                ShowControls();
                 ConsoleKey key = Console.ReadKey().Key;
                 switch (key)
                 {
                     case ConsoleKey.LeftArrow:
-                        PreviousEntry();
+                        ShowEntry(PreviousEntry(currentJournal));
                         break;
                     case ConsoleKey.UpArrow:
                         ShowJournal();
@@ -112,62 +147,65 @@ namespace OOPJournal
                         CreateJournal();
                         break;
                     case ConsoleKey.Spacebar:
-                        AddEntry();
+                        AddEntry(currentJournal);
                         break;
                     case ConsoleKey.RightArrow:
-                        NextEntry();
+                        ShowEntry(NextEntry(currentJournal));
+                        break;
+                    case ConsoleKey.Escape:
+                        Environment.Exit(0);
                         break;
                 }
             }
         }
         private void ShowJournalInfo(Journal currentJournal)
         {
+            string[] age = AgeShowcase(currentJournal.Cpr);
             Console.WriteLine($"\n" +
                               $"Journal of {currentJournal.Name}\n" +
                               $"-----------------------------------------------------------------------------\n" +
-                              $"{currentJournal.Name}\n" +
-                              $"{currentJournal.Cpr}\n" +
-                              $"{currentJournal.Address}\n" +
-                              $"{currentJournal.Phone}\n" +
-                              $"{currentJournal.Email}\n" +
-                              $"{currentJournal.PrefDoctor}\n" +
-                              $"{mg.AgeShowcase()}\n" +
+                              $"Name: {currentJournal.Name}\n" +
+                              $"CPR: {currentJournal.Cpr}\n" +
+                              $"Address: {currentJournal.Address}\n" +
+                              $"Phone: {currentJournal.Phone}\n" +
+                              $"Email: {currentJournal.Email}\n" +
+                              $"Prefered Doctor: {currentJournal.PrefDoctor}\n" +
+                              $"Age: {age[0]} Years & {age[1]} Days\n" +
                               $"-----------------------------------------------------------------------------\n");
         }
         private void ShowEntry(JournalEntry entry)
         {
             if (entry != null)
             {
-                Console.WriteLine("\n" +
-                                 $"Entry: " +
+                Console.WriteLine("Entry: \n" +
                                  $"{entry.TimeFormat.ToString("| yyyy/MM/dd | HH:mm")} | {entry.Doctor} |\n" +
-                                 $"   {entry.Description}\n");
+                                 $"   {entry.Description}");
             }
             else
             {
-                Console.WriteLine("\n" +
-                                 $"Entry: " +
-                                 $"No available entries.\n");
+                Console.WriteLine("Entry: \n" +
+                                 $"No available entry.");
             }
             
         }
         private void ShowControls()
         {
-            Console.WriteLine("\n------------------------------------------------------------------------\n" +
-                                "| Previous Entry | Load Journal | New Journal | Add Entry | Next Entry |\n" +
-                                "|       ◄─       |       ▲      |       ▼     |  [SPACE]  |     ─►     │\n" +
-                                "------------------------------------------------------------------------");
+            Console.WriteLine("\n-------------------------------------------------------------------------------------\n" +
+                                "| Previous Entry | Load Journal | New Journal | Add Entry | Next Entry |  Exit App  |\n" +
+                                "|       ◄─       |       ▲      |       ▼     |  [SPACE]  |     ─►     │    [ESC]   │\n" +
+                                "-------------------------------------------------------------------------------------");
             Console.CursorVisible = false;
         }
-        private void NextEntry()
+        private JournalEntry NextEntry(Journal currentJournal)
         {
+            return mg.GetNextEntry(currentJournal);
 
         }
-        public void PreviousEntry()
+        private JournalEntry PreviousEntry(Journal currentJournal)
         {
-
+            return mg.GetPreviousEntry(currentJournal);
         }
-        public void AddEntry()
+        private void AddEntry(Journal currentJournal)
         {
             /* 11 lines
              * \n
@@ -176,12 +214,31 @@ namespace OOPJournal
              *    entryDescription
              */
             ClearLine(13); // Clear from Entry and all lines down.
-            mg.AddEntry();
-            ShowControls();
-            JournalControls();
+            Console.WriteLine("Entry:");
+            string header = $"{DateTime.Now.ToString("| yyyy/MM/dd | HH:mm")} | ";
+            Console.Write(header + "Doctor Name: ");
+            string doctorName = Console.ReadLine();
+            ClearLine();
+            Console.WriteLine($"{header} {doctorName} |");
+            string description = string.Empty;
+
+            Console.WriteLine("Type to write... Write 'END' when finished.");
+            while (true)
+            {
+                string line = Console.ReadLine();
+                if (line.Equals("END")) break; else description += line + "\n";
+            }
+
+            mg.AddEntry(currentJournal, doctorName, description);
+            JournalControls(currentJournal);
         }
 
-        public void ClearLine()
+        private string[] AgeShowcase(string cpr)
+        {
+            return mg.AgeShowcase(cpr);
+        }
+
+        private void ClearLine()
         {
             Console.SetCursorPosition(0, Console.CursorTop - 1);
             Console.Write(new string(' ', Console.BufferWidth));
@@ -189,7 +246,7 @@ namespace OOPJournal
         }
 
         #region ClearLine "Overload" Methods
-        public void ClearLine(int start)
+        private void ClearLine(int start)
         {
             int lastLine = Console.CursorTop;
             Console.SetCursorPosition(0, start);
@@ -199,7 +256,7 @@ namespace OOPJournal
             }
             Console.SetCursorPosition(0, start);
         }
-        public void ClearLine(int start, int lineAmount)
+        private void ClearLine(int start, int lineAmount)
         {
             Console.SetCursorPosition(0, start);
             for (int i = 1; i <= lineAmount; i++)
@@ -208,7 +265,7 @@ namespace OOPJournal
             }
             Console.SetCursorPosition(0, start);
         }
-        public void ClearLine(int start, int lineAmount, int setCursor)
+        private void ClearLine(int start, int lineAmount, int setCursor)
         {
             Console.SetCursorPosition(0, start);
             for (int i = 1; i <= lineAmount; i++)
@@ -219,7 +276,7 @@ namespace OOPJournal
         }
         #endregion
 
-        public dynamic InputReader<T>(string output = "")
+        private dynamic InputReader<T>(string output = "")
         {
             Console.Write(output);
             string input = Console.ReadLine();
