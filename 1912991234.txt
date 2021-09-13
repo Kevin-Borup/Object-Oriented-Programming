@@ -1,14 +1,21 @@
-name		
-address
-email / tlf
+name	
 cpr
+address
+phone
+email
 prefered doctor
 --------------------------------------
-Entries:
+dato - doc - desc
+
+dato_
+_doc_ 
+_desc
+
+dato - doc - desc
+| dato | tid | doc | desc
 dato - doc - desc
 dato - doc - desc
 dato - doc - desc
 dato - doc - desc
-dato - doc - desc
-dato - doc - desc
+
 

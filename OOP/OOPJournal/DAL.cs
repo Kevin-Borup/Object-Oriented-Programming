@@ -15,24 +15,37 @@ namespace OOPJournal
         StreamReader reader;
         StreamWriter writer;
 
-        private void UpdatePath(uint cpr)
+        private void UpdatePath(string cpr)
         {
-            fileFullPath = folderPath + @"\" + cpr.ToString() + ".txt";
+            fileFullPath = $"{folderPath}\\{cpr}.txt";
         }
-        public void CreateFullPath(uint cpr)
+        public bool CreateJournalFile(string[] patientInfo)
         {
-            UpdatePath(cpr);
+            UpdatePath(patientInfo[1]);
             try
             {
                 patientFile = new FileStream(fileFullPath, FileMode.CreateNew);
+                
             }
             catch (IOException)
             {
-                Console.WriteLine("The Patient txt file already exists.");
+                Console.WriteLine("The Patient journal file already exists.");
+                patientFile.Close();
+                return false;
             }
+            writer = new StreamWriter(patientFile);
+
+            for (int i = 0; i < patientFile.Length; i++)
+            {
+                writer.WriteLine(patientInfo[i]);
+            }
+            writer.WriteLine("--------------------------------------");
+            writer.Close();
+            return true;
         }
-        public string[] LoadFromFile(out string[] entryArray) 
+        public string[] LoadFromFile(string cpr, out string[] entryArray)
         {
+            UpdatePath(cpr);
             patientFile = new FileStream(fileFullPath, FileMode.Open);
             reader = new StreamReader(patientFile);
 
@@ -41,7 +54,7 @@ namespace OOPJournal
 
             for (int i = 0; !reader.EndOfStream; i++)
             {
-                if (i < 5)
+                if (i < 6)
                 {
                     journalArray[i] = reader.ReadLine();
 
@@ -51,13 +64,11 @@ namespace OOPJournal
                     entryList.Add(reader.ReadLine());
                 }
             }
-            string name;
-            name.Split('-', StringSplitOptions.trim);
             reader.Close();
             entryArray = entryList.ToArray();
             return journalArray;
         }
-        public void AddToFile(uint cpr, JournalEntry entry)
+        public void AddToFile(string cpr, JournalEntry entry)
         {
             UpdatePath(cpr);
             patientFile = new FileStream(fileFullPath, FileMode.Append);
