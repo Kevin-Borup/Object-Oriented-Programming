@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace OOPJournal
 {
@@ -14,7 +15,7 @@ namespace OOPJournal
         private string phone;
         private string email;
         private string prefDoctor;
-        private List<JournalEntry> entries;
+        private List<JournalEntry> entries = new List<JournalEntry>();
         public Journal(string[] patientInfo)
         {
             Name = patientInfo[0];
@@ -33,6 +34,8 @@ namespace OOPJournal
         {
             Entries.Add(new JournalEntry(date, doctor, description));
         }
+        // All attributes/properties are publically available to get informations.
+        // Althoug they're all private in regards to set, meaning only the journal itself can edit it with a builtin funtion.
         public string Name { get { return name; } private set { name = value; } }
         public string Cpr { get { return cpr; } private set { cpr = value; } }
         public string Address { get { return address; } private set { address = value; } }
@@ -47,15 +50,19 @@ namespace OOPJournal
         private DateTime timeFormat;
         private string doctor;
         private string description;
+        // Journal Entry generates it's own date upon construction, whilst assigning doctor and description.
         public JournalEntry(string doctor, string description)
         {
             TimeFormat = DateTime.Now;
             Doctor = doctor;
             Description = description;
         }
+        // This construction allows on to personally define the date.
+        // This is used for creating entries on the back of previosuly existing acount.
         public JournalEntry(string date, string doctor, string description)
         {
-            TimeFormat = Convert.ToDateTime(date);
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            TimeFormat = DateTime.ParseExact(date, "yyyy/MM/dd HH:mm", provider);
             Doctor = doctor;
             Description = description;
         }

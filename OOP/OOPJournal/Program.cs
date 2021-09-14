@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace OOPJournal
 {
@@ -10,43 +11,27 @@ namespace OOPJournal
     {
         static void Main(string[] args)
         {
+            // Console Windows adjustments
+            Console.SetBufferSize(100, 20);
+            Console.SetWindowSize(100, 20);
+
+            // Instantiating sys, of the class System. 
+            // This will be the main class to run the application
+            // This is done to clear away from Main, and create a clean overview.
             System sys = new System();
             sys.Process();
         }
-
-        
     }
     class System
     {
         readonly Manager mg = new Manager();
+        int lineClearNum = 10;
+        /// <summary>
+        /// This is the main Process of the System.
+        /// This Method will call the main visuals for the application.
+        /// This is to provide the user with the info needed to take the proper action.
+        /// </summary>
         public void Process()
-        {
-            Console.SetBufferSize(143, 9000);
-            Console.SetWindowSize(Console.BufferWidth, 41);
-            
-            MainChoice();   
-        }
-        private void MainHeader()
-        {
-            Console.WriteLine(@"
- ,                _      _         ___  _                     
-/|   |           | |    | |       / (_)| | o          o       
- |___|  _   __,  | |_|_ | |      |     | |     _  _       __  
- |   |\|/  /  |  |/  |  |/ \     |     |/  |  / |/ |  |  /    
- |   |/|__/\_/|_/|__/|_/|   |_/   \___/|__/|_/  |  |_/|_/\___/");
-        }
-        private void MainMenu()
-        {
-            Console.Write("\n" +
-                          "1. Create Patient Journal\n" +
-                          "2. Load Patient Journal\n" +
-                          "\n" +
-                          "3. Exit\n" +
-                          "\n" +
-                          "Enter your choice: ");
-
-        }
-        private void MainChoice()
         {
             while (true)
             {
@@ -71,6 +56,11 @@ namespace OOPJournal
                 }
             }
         }
+        /// <summary>
+        /// This method interacts with the user to create a new file which contains the Journal/patient info.
+        /// It provides feedback the success of the operation.
+        /// The method the loads he input as a Journal, and begins the process for visual feedback and further aditions.
+        /// </summary>
         private void CreateJournal()
         {
             Console.Clear();
@@ -97,7 +87,7 @@ namespace OOPJournal
                 Console.WriteLine("Success: The journal for this patient has been created.");
                 Console.ReadKey();
                 Console.Clear();
-            } 
+            }
             else
             {
                 Console.WriteLine("Cancelled: The journal for this patient already exists.");
@@ -108,9 +98,16 @@ namespace OOPJournal
             }
             Journal currentJournal = mg.LoadJournalFromFile(userInfo[1]);
             ShowJournalInfo(currentJournal);
-            ShowEntry(mg.GetNextEntry(currentJournal));
             AddEntry(currentJournal);
+            ShowEntry(mg.GetNextEntry(currentJournal));
+            JournalControls(currentJournal);
         }
+        /// <summary>
+        /// This method is used to write the elemets of 2 arrays as 1.
+        /// This provides the user with a rather seemless experience.
+        /// </summary>
+        /// <param name="journalHeaders"></param>
+        /// <param name="userInfo"></param>
         private void PrintHeader(string[] journalHeaders, string[] userInfo)
         {
             for (int i = 0; i < journalHeaders.Length; i++)
@@ -118,6 +115,11 @@ namespace OOPJournal
                 Console.WriteLine(journalHeaders[i] + userInfo[i]);
             }
         }
+        /// <summary>
+        /// This method is used to search for a journal, by providing the means to input ones CPR.
+        /// The method also has the CPR as a variable parameter. This means you can also provide a cpr, to the load the corresponding journal. 
+        /// </summary>
+        /// <param name="cpr"></param>
         private void ShowJournal(string cpr = "")
         {
             if (cpr.Equals(""))
@@ -126,11 +128,17 @@ namespace OOPJournal
             }
             Journal currentJournal = mg.LoadJournalFromFile(cpr);
             ShowJournalInfo(currentJournal);
+            ShowEntry(mg.GetNextEntry(currentJournal));
             JournalControls(currentJournal);
         }
+        /// <summary>
+        /// After initial setup, this method becomes the main operator of the application.
+        /// Both create and load journal ends here. Creating a loop for constant options and interactions.
+        /// It makes use of the key pressed to create the accurate reponse.
+        /// </summary>
+        /// <param name="currentJournal"></param>
         private void JournalControls(Journal currentJournal)
         {
-            ShowEntry(mg.GetNextEntry(currentJournal));
             while (true)
             {
                 ShowControls();
@@ -138,7 +146,8 @@ namespace OOPJournal
                 switch (key)
                 {
                     case ConsoleKey.LeftArrow:
-                        ShowEntry(PreviousEntry(currentJournal));
+
+                        ShowEntry(mg.GetPreviousEntry(currentJournal));
                         break;
                     case ConsoleKey.UpArrow:
                         ShowJournal();
@@ -150,7 +159,7 @@ namespace OOPJournal
                         AddEntry(currentJournal);
                         break;
                     case ConsoleKey.RightArrow:
-                        ShowEntry(NextEntry(currentJournal));
+                        ShowEntry(mg.GetNextEntry(currentJournal));
                         break;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
@@ -158,11 +167,14 @@ namespace OOPJournal
                 }
             }
         }
+        /// <summary>
+        /// This method prints the headers and information of the journal provided.
+        /// </summary>
+        /// <param name="currentJournal"></param>
         private void ShowJournalInfo(Journal currentJournal)
         {
-            string[] age = AgeShowcase(currentJournal.Cpr);
-            Console.WriteLine($"\n" +
-                              $"Journal of {currentJournal.Name}\n" +
+            string[] age = mg.AgeShowcase(currentJournal.Cpr);
+            Console.WriteLine($"Journal of {currentJournal.Name}\n" +
                               $"-----------------------------------------------------------------------------\n" +
                               $"Name: {currentJournal.Name}\n" +
                               $"CPR: {currentJournal.Cpr}\n" +
@@ -173,12 +185,20 @@ namespace OOPJournal
                               $"Age: {age[0]} Years & {age[1]} Days\n" +
                               $"-----------------------------------------------------------------------------\n");
         }
+        /// <summary>
+        /// Prints the details of the entry to the Console.
+        /// If no entry is available, the method prints out this as feedback.
+        /// </summary>
+        /// <param name="entry"></param>
         private void ShowEntry(JournalEntry entry)
         {
+            ClearLine(lineClearNum);
             if (entry != null)
             {
+                // Used to seperate the date formatting from the OS culture settings.
+                CultureInfo provider = CultureInfo.InvariantCulture;
                 Console.WriteLine("Entry: \n" +
-                                 $"{entry.TimeFormat.ToString("| yyyy/MM/dd | HH:mm")} | {entry.Doctor} |\n" +
+                                 $"{entry.TimeFormat.ToString("| yyyy/MM/dd | HH:mm", provider)} | {entry.Doctor} |\n" +
                                  $"   {entry.Description}");
             }
             else
@@ -186,58 +206,66 @@ namespace OOPJournal
                 Console.WriteLine("Entry: \n" +
                                  $"No available entry.");
             }
-            
-        }
-        private void ShowControls()
-        {
-            Console.WriteLine("\n-------------------------------------------------------------------------------------\n" +
-                                "| Previous Entry | Load Journal | New Journal | Add Entry | Next Entry |  Exit App  |\n" +
-                                "|       ◄─       |       ▲      |       ▼     |  [SPACE]  |     ─►     │    [ESC]   │\n" +
-                                "-------------------------------------------------------------------------------------");
-            Console.CursorVisible = false;
-        }
-        private JournalEntry NextEntry(Journal currentJournal)
-        {
-            return mg.GetNextEntry(currentJournal);
 
         }
-        private JournalEntry PreviousEntry(Journal currentJournal)
-        {
-            return mg.GetPreviousEntry(currentJournal);
-        }
+
+        /// <summary>
+        /// With the use of a currentJournal, this method provides a user interface to provide info.
+        /// The gathered data is used to create an entry in the current journal.
+        /// </summary>
+        /// <param name="currentJournal"></param>
         private void AddEntry(Journal currentJournal)
         {
-            /* 11 lines
-             * \n
-             * Entry:
-             * | yyyy/MM/dd | HH:mm | doctorName |
-             *    entryDescription
-             */
-            ClearLine(13); // Clear from Entry and all lines down.
+            ClearLine(lineClearNum);
             Console.WriteLine("Entry:");
             string header = $"{DateTime.Now.ToString("| yyyy/MM/dd | HH:mm")} | ";
             Console.Write(header + "Doctor Name: ");
             string doctorName = Console.ReadLine();
             ClearLine();
             Console.WriteLine($"{header} {doctorName} |");
-            string description = string.Empty;
 
+            // This while loop allows the user to create a longer descriptions along with creating new lines.
+            // The user stop the writing procress by typing "END" on one line.
+            string description = string.Empty;
             Console.WriteLine("Type to write... Write 'END' when finished.");
             while (true)
             {
                 string line = Console.ReadLine();
                 if (line.Equals("END")) break; else description += line + "\n";
             }
-
+            ClearLine(lineClearNum);
             mg.AddEntry(currentJournal, doctorName, description);
-            JournalControls(currentJournal);
         }
-
-        private string[] AgeShowcase(string cpr)
+        /// <summary>
+        /// This method is of a dynamic type. The return value is the value defined by "TDataType".
+        /// This method provides the ability to create an output for the console, whilst getting input from the user.
+        /// </summary>
+        /// <typeparam name="TDatatype">The datatype provided here, defines the return value</typeparam>
+        /// <param name="output">An optional variable, used for output to the Console.</param>
+        /// <returns>Returns user input as the datatype provided.</returns>
+        private dynamic InputReader<TDatatype>(string output = "")
         {
-            return mg.AgeShowcase(cpr);
-        }
+            Console.Write(output);
+            string input = Console.ReadLine();
 
+            // This switch case is quite overkill at current time, but allows for further development down the line.
+            // Mainly when we learn how to make use of Libraries.
+            switch (typeof(TDatatype).Name)
+            {
+                case "Int32":
+                    // It is by choice to cause a crash, if the user leaves the input empty.
+                    // As Parse can't recieve null values. This is used to avoid handling bad input.
+                    return int.Parse(input);
+                default:
+                    break;
+            }
+            return input;
+        }
+        /// <summary>
+        /// This method clears the previously written line, whilst adjusting the cursor to be located at the previous line's start.
+        /// This method can be called without any parameters, or called whilst providing a parameter value.
+        /// This calls the second ClearLine() Method, as it allows a more costumized setting.
+        /// </summary>
         private void ClearLine()
         {
             Console.SetCursorPosition(0, Console.CursorTop - 1);
@@ -245,7 +273,11 @@ namespace OOPJournal
             Console.SetCursorPosition(0, Console.CursorTop - 1);
         }
 
-        #region ClearLine "Overload" Methods
+        /// <summary>
+        /// This overload of ClearLine allows one to defined a line to start at, in the console.
+        /// Effectively clearing all output/input from that point onwards. 
+        /// </summary>
+        /// <param name="start"></param>
         private void ClearLine(int start)
         {
             int lastLine = Console.CursorTop;
@@ -256,36 +288,44 @@ namespace OOPJournal
             }
             Console.SetCursorPosition(0, start);
         }
-        private void ClearLine(int start, int lineAmount)
+        #region Visuals for the Application
+        /// <summary>
+        /// ASCII Art to create a better visual experiance for the user .
+        /// </summary>
+        private void MainHeader()
         {
-            Console.SetCursorPosition(0, start);
-            for (int i = 1; i <= lineAmount; i++)
-            {
-                Console.WriteLine(new string(' ', Console.BufferWidth));
-            }
-            Console.SetCursorPosition(0, start);
+            Console.WriteLine(@"
+ ,                _      _         ___  _                     
+/|   |           | |    | |       / (_)| | o          o       
+ |___|  _   __,  | |_|_ | |      |     | |     _  _       __  
+ |   |\|/  /  |  |/  |  |/ \     |     |/  |  / |/ |  |  /    
+ |   |/|__/\_/|_/|__/|_/|   |_/   \___/|__/|_/  |  |_/|_/\___/");
         }
-        private void ClearLine(int start, int lineAmount, int setCursor)
+        /// <summary>
+        /// The visuals for the MainMenu of the application.
+        /// </summary>
+        private void MainMenu()
         {
-            Console.SetCursorPosition(0, start);
-            for (int i = 1; i <= lineAmount; i++)
-            {
-                Console.WriteLine(new string(' ', Console.BufferWidth));
-            }
-            Console.SetCursorPosition(0, setCursor);
+            Console.Write("\n" +
+                          "1. Create Patient Journal\n" +
+                          "2. Load Patient Journal\n" +
+                          "\n" +
+                          "3. Exit\n" +
+                          "\n" +
+                          "Enter your choice: ");
+
+        }
+        /// <summary>
+        /// The Method presents the user with all available interaction at the current state.
+        /// </summary>
+        private void ShowControls()
+        {
+            Console.WriteLine("\n-------------------------------------------------------------------------------------\n" +
+                                "| Previous Entry | Load Journal | New Journal | Add Entry | Next Entry |  Exit App  |\n" +
+                                "|       ◄─       |       ▲      |       ▼     |  [SPACE]  |     ─►     │    [ESC]   │\n" +
+                                "-------------------------------------------------------------------------------------");
+
         }
         #endregion
-
-        private dynamic InputReader<T>(string output = "")
-        {
-            Console.Write(output);
-            string input = Console.ReadLine();
-
-            if (typeof(T) == typeof(int))
-            {
-                return int.Parse(input);
-            }
-            return input;
-        }
     }
 }

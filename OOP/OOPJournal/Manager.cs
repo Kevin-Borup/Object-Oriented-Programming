@@ -8,6 +8,7 @@ namespace OOPJournal
 {
     class Manager
     {
+        //The manager is used a way to point towards logic on a deeper level to highten security. 
         private readonly DAL database = new DAL();
         private readonly JournalConnector journalConnector = new JournalConnector();
         public bool CreateJournalFile(string[] patientInfo)
@@ -22,7 +23,7 @@ namespace OOPJournal
 
         public Journal LoadJournalFromFile(string cpr)
         {
-            string[] journalInfo = database.LoadFromFile(cpr, out string[] entryArray);
+            database.LoadFromFile(cpr, out string[] journalInfo, out string[] entryArray);
 
             return journalConnector.GetJournal(journalInfo, entryArray);
         }
@@ -45,59 +46,11 @@ namespace OOPJournal
         private readonly int[,] cprAge;
         private int entryIndex = 0;
         private Journal currentJournal;
+        /// <summary>
+        /// The JournalConnector immediately fills an array with values to provide a multidimensional array to translate age based on CPR.
+        /// </summary>
         public JournalConnector()
         {
-
-            #region cprAge Array Setup (version 1)
-            /*
-            int[,] cprAge = new int[10, 99];
-            for (int i = 0; i < cprAge.Length; i++)
-            {
-                for (int j = 0; j < cprAge.GetLength(i); j++)
-                {
-                    if (i < 4)
-                    {
-                        cprAge[i, j] = 19;
-                    }
-                    else if (i < 5)
-                    {
-                        if (j < 37)
-                        {
-                            cprAge[i, j] = 20;
-                        }
-                        else
-                        {
-                            cprAge[i, j] = 19;
-                        }
-                    }
-                    else if (i < 9)
-                    {
-                        if (j < 58)
-                        {
-                            cprAge[i, j] = 20;
-                        }
-                        else
-                        {
-                            cprAge[i, j] = 19;
-                        }
-                    }
-                    else
-                    {
-                        if (j < 37)
-                        {
-                            cprAge[i, j] = 20;
-                        }
-                        else
-                        {
-                            cprAge[i, j] = 19;
-                        }
-                    }
-                }
-            }
-            */
-            #endregion
-
-            #region cprAge Array Setup (version 2)
             cprAge = new int[10, 100];
             for (int i = 0; i < cprAge.GetLength(0); i++)
             {
@@ -121,9 +74,12 @@ namespace OOPJournal
                     }
                 }
             }
-            #endregion
-
         }
+        /// <summary>
+        /// With use of some string manipulation, the method extracts and inserts value to create the desired birthday string.
+        /// </summary>
+        /// <param name="cpr"></param>
+        /// <returns></returns>
         private string BirthDateCalculator(string cpr)
         {
             // 1912991234
@@ -140,20 +96,41 @@ namespace OOPJournal
 
             return birthDate;
         }
+        /// <summary>
+        /// This method creates a string array containing the value of years and days in a persons age.
+        /// </summary>
+        /// <param name="cpr"></param>
+        /// <returns></returns>
         public string[] AgeCalculator(string cpr)
         {
             string[] age = new string[2];
+            // Gets a string of a birthdate including century from the CPR.
             string birthDate = BirthDateCalculator(cpr);
+            DateTime birth = DateTime.ParseExact(birthDate, "ddMMyyyy", null);
             DateTime today = DateTime.Now;
-            DateTime birthDateTime = DateTime.ParseExact(birthDate, "ddMMyyyy", null);
+            DateTime thisBDay = new DateTime(today.Year, birth.Month, birth.Day);
+            // The logic begind this process is to create 3 DateTimes to compare between.
+            // The third DateTime ThisBDay is created as a way to gather the day difference from today to the cpr birthday.
+            // Otherwise the DateTime Method Compare would always see today as being later, as ones birth obviosuly happened before the current day.
+            // DateTime doesn't allow one to remove the data concerning Years, Months, Days, Hours, Minutes, or Seconds. They're always attached.
+            // So from a comparison perspective, making the year the same value, is an indirect way of making it irrelevant to the focus on days.
 
-            int daysInBetween = -(today.DayOfYear - birthDateTime.DayOfYear);
 
-            string years = (today.Year - 1 - birthDateTime.Year).ToString();
-            string days = (365 - daysInBetween).ToString();
+            // Default: Birthday has already happened.
+            int years = today.Year - birth.Year;
+            int days = today.DayOfYear - thisBDay.DayOfYear;
+            // The .Date provides the date exclusive of Time. Making it possible to compare on days, but not also hours of life.
+            // Technically it still carries data concerning Time. It is merely all set to midnight 00:00:00, thereby making it obsolete in comparison.
+            int difference = DateTime.Compare(today.Date, thisBDay.Date);
+            // If birthday hasn't happened yet, don't count this year, and reverse amount of days so to get days from instead of until.
+            if (difference < 0)
+            {
+                years -= 1;
+                days = 365 + days;
+            }
 
-            age[0] = years;
-            age[1] = days;
+            age[0] = years.ToString();
+            age[1] = days.ToString();
 
             return age;
         }
@@ -161,10 +138,19 @@ namespace OOPJournal
         {
             return new Journal(patientInfo);
         }
+        /// <summary>
+        /// The method creates a journal from a file, as it is provided with 2 arrays. 
+        /// One with journal info and one with entry submissions.
+        /// </summary>
+        /// <param name="journalInfo"></param>
+        /// <param name="entryArray"></param>
+        /// <returns></returns>
         public Journal GetJournal(string[] journalInfo, string[] entryArray)
         {
+            // The method starts by creating the Journal.
             currentJournal = new Journal(journalInfo);
 
+            // Then with a for-loop it iterates over every found entry to process it for entry creation.
             if (entryArray.Length > 0)
             {
                 for (int i = 0; i < entryArray.Length; i++)
@@ -177,6 +163,13 @@ namespace OOPJournal
 
             return currentJournal;
         }
+        /// <summary>
+        /// This method splits a string into an array based on the char '-'.
+        /// It then cleans the values by trimming the whitespace found on eitherside of the value.
+        /// This is the main preparation of data read from a file.
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
         private string[] EntrySplitter(string entry)
         {
             // dato - doc - desc
@@ -188,6 +181,12 @@ namespace OOPJournal
             }
             return entrySplit;
         }
+        /// <summary>
+        /// With the use of a index managed by the JournalConnector it can iterate to the next entry on the currentJournal.
+        /// This allows the user to browse through entries one at a time in a journal.
+        /// </summary>
+        /// <param name="currentJournal"></param>
+        /// <returns></returns>
         public JournalEntry GetEntry(Journal currentJournal)
         {
             JournalEntry currentEntry = null;
@@ -204,17 +203,21 @@ namespace OOPJournal
 
             return currentEntry;
         }
+        /// <summary>
+        /// With the use of a index managed by the JournalConnector it can iterate to the previous entry on the currentJournal.
+        /// This allows the user to browse through entries one at a time in a journal.
+        /// </summary>
+        /// <param name="currentJournal"></param>
+        /// <returns></returns>
         public JournalEntry GetPreviousEntry(Journal currentJournal)
         {
             List<JournalEntry> entries = currentJournal.Entries;
             JournalEntry currentEntry = null;
 
-            int previousEntry = entryIndex - 1;
-
-            if (0 <= previousEntry)
+            if (0 <= entryIndex - 1)
             {
-                currentEntry = entries[previousEntry];
-                entryIndex = previousEntry;
+                entryIndex -= 1;
+                currentEntry = entries[entryIndex];
             }
 
             return currentEntry;

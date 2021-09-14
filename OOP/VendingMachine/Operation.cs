@@ -10,11 +10,11 @@ namespace VendingMachine
     {
         public float AddMoney(float money)
         {
-
+            return 0f;
         }
-        public Slot ProductPurchase(float money, int keypad)
+        public string ProductPurchase(float money, int keypad)
         {
-
+            return string.Empty;
         }
         public void ProcesWait()
         {
@@ -22,7 +22,7 @@ namespace VendingMachine
         }
         public float EmptyMoney()
         {
-
+            return 0f;
         }
         public void RefillVM()
         {

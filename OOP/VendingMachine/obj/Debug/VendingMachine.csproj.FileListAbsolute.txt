@@ -1,2 +1,7 @@
 C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\VendingMachine\obj\Debug\VendingMachine.csproj.AssemblyReference.cache
 C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\VendingMachine\obj\Debug\VendingMachine.csproj.CoreCompileInputs.cache
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\VendingMachine\bin\Debug\VendingMachine.exe.config
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\VendingMachine\bin\Debug\VendingMachine.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\VendingMachine\bin\Debug\VendingMachine.pdb
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\VendingMachine\obj\Debug\VendingMachine.exe
+C:\ZBC Data-Kommunikation\Object-Oriented-Programming\OOP\VendingMachine\obj\Debug\VendingMachine.pdb
