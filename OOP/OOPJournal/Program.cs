@@ -11,9 +11,9 @@ namespace OOPJournal
     {
         static void Main(string[] args)
         {
-            // Console Windows adjustments
-            Console.SetBufferSize(100, 20);
-            Console.SetWindowSize(100, 20);
+            // Console Window adjustments
+            Console.SetBufferSize(140, 40);
+            Console.SetWindowSize(140, 40);
 
             // Instantiating sys, of the class System. 
             // This will be the main class to run the application
@@ -43,7 +43,7 @@ namespace OOPJournal
                         CreateJournal();
                         break;
                     case 2:
-                        ShowJournal();
+                        GetJournal();
                         break;
                     case 3:
                         Environment.Exit(0);
@@ -63,7 +63,6 @@ namespace OOPJournal
         /// </summary>
         private void CreateJournal()
         {
-            Console.Clear();
             string[] userInfo = new string[6];
             string[] journalHeaders = new string[6];
             journalHeaders[0] = "Name: ";
@@ -73,13 +72,14 @@ namespace OOPJournal
             journalHeaders[4] = "Email: ";
             journalHeaders[5] = "Prefered Doctor: ";
 
-            PrintHeader(journalHeaders, userInfo);
+            Console.Clear();
+            CreationHeader();
+            int journalHeaderStart = Console.CursorTop;
             for (int i = 0; i < journalHeaders.Length; i++)
             {
-                Console.SetCursorPosition(journalHeaders[i].Length, i);
-                userInfo[i] = Console.ReadLine();
-                Console.Clear();
                 PrintHeader(journalHeaders, userInfo);
+                Console.SetCursorPosition(journalHeaders[i].Length, i + journalHeaderStart);
+                userInfo[i] = Console.ReadLine();
             }
 
             if (mg.CreateJournalFile(userInfo))
@@ -110,6 +110,8 @@ namespace OOPJournal
         /// <param name="userInfo"></param>
         private void PrintHeader(string[] journalHeaders, string[] userInfo)
         {
+            Console.Clear();
+            CreationHeader();
             for (int i = 0; i < journalHeaders.Length; i++)
             {
                 Console.WriteLine(journalHeaders[i] + userInfo[i]);
@@ -120,12 +122,21 @@ namespace OOPJournal
         /// The method also has the CPR as a variable parameter. This means you can also provide a cpr, to the load the corresponding journal. 
         /// </summary>
         /// <param name="cpr"></param>
-        private void ShowJournal(string cpr = "")
+        private void GetJournal(string cpr = "")
         {
-            if (cpr.Equals(""))
+            while (true)
             {
-                cpr = InputReader<string>("Write the CPR of the patient: ");
+                if (cpr.Equals(""))
+                {
+                    cpr = InputReader<string>("Write the CPR of the patient: ");
+                }
+
+                if (cpr.Length == 10)
+                {
+                    break;
+                }
             }
+            
             Journal currentJournal = mg.LoadJournalFromFile(cpr);
             ShowJournalInfo(currentJournal);
             ShowEntry(mg.GetNextEntry(currentJournal));
@@ -142,6 +153,7 @@ namespace OOPJournal
             while (true)
             {
                 ShowControls();
+                Console.CursorVisible = false;
                 ConsoleKey key = Console.ReadKey().Key;
                 switch (key)
                 {
@@ -150,7 +162,8 @@ namespace OOPJournal
                         ShowEntry(mg.GetPreviousEntry(currentJournal));
                         break;
                     case ConsoleKey.UpArrow:
-                        ShowJournal();
+                        Console.Clear();
+                        GetJournal();
                         break;
                     case ConsoleKey.DownArrow:
                         CreateJournal();
@@ -173,9 +186,12 @@ namespace OOPJournal
         /// <param name="currentJournal"></param>
         private void ShowJournalInfo(Journal currentJournal)
         {
+            Console.Clear();
             string[] age = mg.AgeShowcase(currentJournal.Cpr);
-            Console.WriteLine($"Journal of {currentJournal.Name}\n" +
-                              $"-----------------------------------------------------------------------------\n" +
+            JournalHeader();
+            Console.WriteLine($"-------------------------------------------------------------------------------------\n" +
+                              $"Journal of {currentJournal.Name}\n" +
+                              $"-------------------------------------------------------------------------------------\n" +
                               $"Name: {currentJournal.Name}\n" +
                               $"CPR: {currentJournal.Cpr}\n" +
                               $"Address: {currentJournal.Address}\n" +
@@ -183,7 +199,8 @@ namespace OOPJournal
                               $"Email: {currentJournal.Email}\n" +
                               $"Prefered Doctor: {currentJournal.PrefDoctor}\n" +
                               $"Age: {age[0]} Years & {age[1]} Days\n" +
-                              $"-----------------------------------------------------------------------------\n");
+                              $"-------------------------------------------------------------------------------------\n");
+            lineClearNum = Console.CursorTop;
         }
         /// <summary>
         /// Prints the details of the entry to the Console.
@@ -199,12 +216,12 @@ namespace OOPJournal
                 CultureInfo provider = CultureInfo.InvariantCulture;
                 Console.WriteLine("Entry: \n" +
                                  $"{entry.TimeFormat.ToString("| yyyy/MM/dd | HH:mm", provider)} | {entry.Doctor} |\n" +
-                                 $"   {entry.Description}");
+                                 $"   {entry.Description}\n");
             }
             else
             {
                 Console.WriteLine("Entry: \n" +
-                                 $"No available entry.");
+                                 $"No available entry.\n");
             }
 
         }
@@ -213,7 +230,7 @@ namespace OOPJournal
         /// With the use of a currentJournal, this method provides a user interface to provide info.
         /// The gathered data is used to create an entry in the current journal.
         /// </summary>
-        /// <param name="currentJournal"></param>
+        /// <param name="currentJournal">The Journal used to add entry to.</param>
         private void AddEntry(Journal currentJournal)
         {
             ClearLine(lineClearNum);
@@ -282,9 +299,9 @@ namespace OOPJournal
         {
             int lastLine = Console.CursorTop;
             Console.SetCursorPosition(0, start);
-            for (int i = 1; i <= lastLine; i++)
+            for (int i = start; i <= lastLine; i++)
             {
-                Console.WriteLine(new string(' ', Console.BufferWidth));
+                Console.Write(new string(' ', Console.BufferWidth));
             }
             Console.SetCursorPosition(0, start);
         }
@@ -294,12 +311,33 @@ namespace OOPJournal
         /// </summary>
         private void MainHeader()
         {
+            // Font Name: Script
             Console.WriteLine(@"
  ,                _      _         ___  _                     
 /|   |           | |    | |       / (_)| | o          o       
  |___|  _   __,  | |_|_ | |      |     | |     _  _       __  
  |   |\|/  /  |  |/  |  |/ \     |     |/  |  / |/ |  |  /    
  |   |/|__/\_/|_/|__/|_/|   |_/   \___/|__/|_/  |  |_/|_/\___/");
+        }
+        private void CreationHeader()
+        {
+            Console.WriteLine(@"
+   ___                                    
+  / (_)                   o               
+ |      ,_    _   __, _|_     __   _  _   
+ |     /  |  |/  /  |  |  |  /  \_/ |/ |  
+  \___/   |_/|__/\_/|_/|_/|_/\__/   |  |_/");
+        }
+        private void JournalHeader()
+        {
+            Console.WriteLine(@"
+                                       _  
+  /\                                  | | 
+ |  |  __          ,_    _  _    __,  | | 
+ |  | /  \_|   |  /  |  / |/ |  /  |  |/  
+  \_|/\__/  \_/|_/   |_/  |  |_/\_/|_/|__/
+   /|                                     
+   \|");
         }
         /// <summary>
         /// The visuals for the MainMenu of the application.

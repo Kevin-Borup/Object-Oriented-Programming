@@ -37,10 +37,10 @@ namespace OOPJournal
         /// <summary>
         /// This method creates a .txt file containing the journal info.
         /// It is the essential preparation to making use of and saving a journal.
-        /// 
         /// </summary>
         /// <param name="patientInfo"></param>
         /// <returns></returns>
+        /// <exception cref="IOException">This error is caused when a file with given name exists.</exception>
         public bool CreateJournalFile(string[] patientInfo)
         {
             UpdatePath(patientInfo[1]);

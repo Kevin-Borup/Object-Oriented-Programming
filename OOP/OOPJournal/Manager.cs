@@ -15,17 +15,16 @@ namespace OOPJournal
         {
             return database.CreateJournalFile(patientInfo);
         }
-        public void AddEntry(Journal currentJournal, string doctor, string description)
-        {
-            currentJournal.AddJournalEntry(doctor, description);
-            database.AddToFile(currentJournal.Cpr, currentJournal.Entries[currentJournal.Entries.Count - 1]);
-        }
-
         public Journal LoadJournalFromFile(string cpr)
         {
             database.LoadFromFile(cpr, out string[] journalInfo, out string[] entryArray);
 
             return journalConnector.GetJournal(journalInfo, entryArray);
+        }
+        public void AddEntry(Journal currentJournal, string doctor, string description)
+        {
+            currentJournal.AddJournalEntry(doctor, description);
+            database.AddToFile(currentJournal.Cpr, currentJournal.Entries[currentJournal.Entries.Count - 1]);
         }
         public JournalEntry GetNextEntry(Journal currentJournal)
         {
@@ -177,7 +176,7 @@ namespace OOPJournal
             // Array with whitespace = [dato_][_doc_][_desc]
             for (int i = 0; i < entrySplit.Length; i++)
             {
-                entrySplit[i].Trim();
+                entrySplit[i] = entrySplit[i].Trim();
             }
             return entrySplit;
         }
@@ -194,7 +193,7 @@ namespace OOPJournal
             if (currentJournal.Entries != null)
             {
                 List<JournalEntry> entries = currentJournal.Entries;
-                if (entryIndex < entries.Count && entries != null)
+                if (entryIndex < entries.Count /*&& entries != null*/)
                 {
                     currentEntry = entries[entryIndex];
                     entryIndex++;

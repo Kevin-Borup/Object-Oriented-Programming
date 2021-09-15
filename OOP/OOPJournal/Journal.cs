@@ -66,6 +66,7 @@ namespace OOPJournal
             Doctor = doctor;
             Description = description;
         }
+
         public DateTime TimeFormat { get { return timeFormat; } set { timeFormat = value; } }
         public string Doctor { get { return doctor; } set { doctor = value; } }
         public string Description { get { return description; } set { description = value; } }
