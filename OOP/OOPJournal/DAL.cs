@@ -134,7 +134,7 @@ namespace OOPJournal
             // The Culture info default to the system culture, which is a conflict with the system as current method to split contents is with a '-'.
             // Which is the system culture default symbol of my PC. The provider allow the string to be created purely as specified, independent of system culture.
             CultureInfo provider = CultureInfo.InvariantCulture;
-            string entryDate = entry.TimeFormat.ToString("yyyy/MM/dd HH:mm", provider);
+            string entryDate = entry.CreationDate.ToString("yyyy/MM/dd HH:mm", provider);
             // Upon description creation, \n are added to simulate the [ENTER] value of the user.
             // It also allows for the option to save the description at close representation of creation.
             // The replace is needed to avoid formatting within the .txt file itself. As that would complicate reading from the file.

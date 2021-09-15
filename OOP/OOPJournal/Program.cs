@@ -215,7 +215,7 @@ namespace OOPJournal
                 // Used to seperate the date formatting from the OS culture settings.
                 CultureInfo provider = CultureInfo.InvariantCulture;
                 Console.WriteLine("Entry: \n" +
-                                 $"{entry.TimeFormat.ToString("| yyyy/MM/dd | HH:mm", provider)} | {entry.Doctor} |\n" +
+                                 $"{entry.CreationDate.ToString("| yyyy/MM/dd | HH:mm", provider)} | {entry.Doctor} |\n" +
                                  $"   {entry.Description}\n");
             }
             else

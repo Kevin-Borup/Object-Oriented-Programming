@@ -47,13 +47,13 @@ namespace OOPJournal
     }
     class JournalEntry
     {
-        private DateTime timeFormat;
+        private DateTime creationDate;
         private string doctor;
         private string description;
         // Journal Entry generates it's own date upon construction, whilst assigning doctor and description.
         public JournalEntry(string doctor, string description)
         {
-            TimeFormat = DateTime.Now;
+            CreationDate = DateTime.Now;
             Doctor = doctor;
             Description = description;
         }
@@ -62,13 +62,13 @@ namespace OOPJournal
         public JournalEntry(string date, string doctor, string description)
         {
             CultureInfo provider = CultureInfo.InvariantCulture;
-            TimeFormat = DateTime.ParseExact(date, "yyyy/MM/dd HH:mm", provider);
+            CreationDate = DateTime.ParseExact(date, "yyyy/MM/dd HH:mm", provider);
             Doctor = doctor;
             Description = description;
         }
 
-        public DateTime TimeFormat { get { return timeFormat; } set { timeFormat = value; } }
-        public string Doctor { get { return doctor; } set { doctor = value; } }
-        public string Description { get { return description; } set { description = value; } }
+        public DateTime CreationDate { get { return creationDate; } private set { creationDate = value; } }
+        public string Doctor { get { return doctor; } private set { doctor = value; } }
+        public string Description { get { return description; } private set { description = value; } }
     }
 }

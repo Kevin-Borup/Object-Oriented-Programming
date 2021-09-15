@@ -28,7 +28,7 @@ namespace OOPJournal
         }
         public JournalEntry GetNextEntry(Journal currentJournal)
         {
-            return journalConnector.GetEntry(currentJournal);
+            return journalConnector.GetNextEntry(currentJournal);
         }
         public JournalEntry GetPreviousEntry(Journal currentJournal)
         {
@@ -186,7 +186,7 @@ namespace OOPJournal
         /// </summary>
         /// <param name="currentJournal"></param>
         /// <returns></returns>
-        public JournalEntry GetEntry(Journal currentJournal)
+        public JournalEntry GetNextEntry(Journal currentJournal)
         {
             JournalEntry currentEntry = null;
 
