@@ -10,49 +10,53 @@ namespace VendingMachine
     {
         private float money;
         private Shelf[] shelves;
-        public Ressource(int installedShelves, int shelfSlots)
+        private int slotCapacity;
+        public Ressource(int installedShelves, int shelfSlots, int slotCapacity)
         {
+            SlotCapacity = slotCapacity;
             Shelves = new Shelf[installedShelves];
             for (int i = 0; i < Shelves.Length; i++)
             {
-                shelves[0] = new Shelf(shelfSlots);
+                Shelves[i] = new Shelf(shelfSlots, slotCapacity);
             }
         }
 
         public float Money { get { return money; } private set { this.money = value; } }
         public Shelf[] Shelves { get { return shelves; } private set { this.shelves = value; } }
+        public int SlotCapacity { get { return slotCapacity; } private set { this.slotCapacity = value; } }
     }
     class Shelf
     {
         private Slot[] slots;
-        public Shelf(int shelfSlots)
+        private int slotCapacity;
+        public Shelf(int shelfSlots, int slotCapacity)
         {
+            SlotCapacity = slotCapacity;
             Slots = new Slot[shelfSlots];
         }
+        public void RegisterProduct(int slotIndex, string productName, float price, int amount)
+        {
+            Slots[slotIndex] = new Slot(productName, price, amount, SlotCapacity);
+        }
         public Slot[] Slots { get { return slots; } private set { this.slots = value; } }
+        public int SlotCapacity { get { return slotCapacity; } private set { this.slotCapacity = value; } }
     }
     class Slot
     {
-        private string product;
+        // ProductName max length = 11;
+        private string productName;
         private float price;
         private int amount;
-        private int capacity = 10;
+        private int capacity;
 
-        public Slot(string product, float price, int amount)
+        public Slot(string productName, float price, int amount, int capacity)
         {
-            Product = product;
+            ProductName = productName;
             Price = price;
             Amount = amount;
-            CheckCapacity();
+            Capacity = capacity;
         }
 
-        public void ChangeProduct(string product, float price, int amount)
-        {
-            Product = product;
-            Price = price;
-            Amount = amount;
-            CheckCapacity();
-        }
         public void UpdatePrice(float price)
         {
             Price = price;
@@ -60,19 +64,12 @@ namespace VendingMachine
         public void AddProducts(int amount)
         {
             Amount += amount;
-            CheckCapacity();
-        }
-        private void CheckCapacity()
-        {
-            if (Amount > capacity)
-            {
-                Amount = capacity;
-            }
         }
 
-        public string Product { get { return product; } private set { this.product = value; } }
+        public string ProductName { get { return productName; } private set { this.productName = value; } }
         public float Price { get { return price; } private set { this.price = value; } }
         public int Amount { get { return amount; } private set { this.amount = value; } }
+        public int Capacity { get { return capacity; } private set { this.capacity = value; } }
 
     }
 }
